@@ -5,7 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="15dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/can_you_guess_it"
+        android:gravity="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:padding="10dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -14,21 +24,15 @@
         android:gravity="center"
         android:textSize="18sp"
         android:paddingTop="10dp"
-        android:paddingBottom="5dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/can_you_guess_it"
-        android:gravity="center"
-        android:textSize="24sp"/>
+        android:paddingBottom="15dp"/>
 
     <EditText
         android:id="@+id/guess"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:hint="@string/guess_here"/>
+        android:hint="@string/guess_here"
+        android:gravity="center"/>
 
 
     <LinearLayout
@@ -78,6 +82,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/guess" />
+
+        <Button
+            android:id="@+id/next_level_btn"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next_level" />
 
 
     </LinearLayout>
