@@ -1,6 +1,7 @@
 package com.example.edgoo.numberguess;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,21 +44,8 @@ public class MainActivity extends AppCompatActivity {
         newGameBtn = findViewById(R.id.new_game_btn);
         nextLevelBtn = findViewById(R.id.next_level_btn);
 
-//          GUESS BUTTON
-        guessBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String value = userGuess.getText().toString();
 
-                if (value.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter a numerical guess", Toast.LENGTH_SHORT).show();;
-                } else {
-                smallLarger();
-                guessLeft();
-                userGuess.getText().clear();
-                userGuess.setHint(R.string.next_guess);
-            }}
-        });
+        guessBtn();
 
 //          NEW GAME BUTTONG
         newGameBtn.setVisibility(View.GONE);
@@ -72,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         nextLevelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, NextLevel.class);
+                startActivity(intent);
 
             }
         });
@@ -108,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             int guess = Integer.parseInt(value);
 
             if (randomNumber < guess) {
-                highLow.setText("It's smaller than " + guess + ".");
+                highLow.setText("It's smaller than " + guess + "." + randomNumber);
             } else if (randomNumber > guess) {
                 highLow.setText("It's larger than " + guess + ".");
             } else {
@@ -137,6 +127,25 @@ public class MainActivity extends AppCompatActivity {
         newGameBtn.setVisibility(View.GONE);
         guessBtn.setVisibility(View.VISIBLE);
         userGuess.setHint(R.string.guess_here);
+    }
+
+    public void guessBtn(){
+
+        //          GUESS BUTTON
+        guessBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String value = userGuess.getText().toString();
+
+                if (value.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter a numerical guess", Toast.LENGTH_SHORT).show();;
+                } else {
+                    smallLarger();
+                    guessLeft();
+                    userGuess.getText().clear();
+                    userGuess.setHint(R.string.next_guess);
+                }}
+        });
     }
 
 //        todo: make new levels.
