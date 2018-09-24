@@ -46,16 +46,112 @@ public class MainActivity extends AppCompatActivity {
 
 
         guessBtn();
+        newGameBtn();
+        doneBtn();
+        nextLevelBtn();
 
-//          NEW GAME BUTTONG
+
+    }
+
+//    method for larger or smaller / WIN OR LOSE
+    public void smallLarger() {
+
+        guessLeft = guessLeft - 1;
+
+        if (guessLeft >= 0) {
+            String value = userGuess.getText().toString();
+            int guess = Integer.parseInt(value);
+
+            if (guess > randomNumber) {
+                highGuess();
+            } else if (guess < randomNumber) {
+                lowGuess();
+            } else {
+                loseMethod();
+            }
+        } else {
+            winMethod();
+        }
+    }
+
+//    WHAT HAPPENS IF USER WINS
+    public void winMethod(){
+        info.setText("Game Over... \n The random number was " + randomNumber);
+        newGameBtn.setVisibility(View.VISIBLE);
+        guessBtn.setVisibility(View.GONE);
+    }
+
+//    WHAT HAPPENS IF USER LOSES
+    public void loseMethod(){
+        info.setText("CORRECT.. YOU WIN!! \n The random number was " + randomNumber);
+        nextLevelBtn.setVisibility(View.VISIBLE);
+        guessBtn.setVisibility(View.GONE);
+    }
+
+//    IF GUESS IS TO HIGH
+    public void highGuess(){
+        String value = userGuess.getText().toString();
+        int guess = Integer.parseInt(value);
+
+        highLow.setText("It's smaller than " + guess + ".");
+    }
+
+//    IF GUESS IS TO SMALL
+    public void lowGuess(){
+        String value = userGuess.getText().toString();
+        int guess = Integer.parseInt(value);
+
+        highLow.setText("It's larger than " + guess + ".");
+    }
+
+//    GUESSES LEFT MESSAGE
+    public void guessLeft() {
+
+        guessLeftView.setText("You have " + guessLeft + " guesses left");
+    }
+
+//    NEW GAME BUTTON
+    public void newGameBtn() {
         newGameBtn.setVisibility(View.GONE);
         newGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newGame();
+        randomNumber = (int) (Math.random() * 100) + 1;
+        guessLeft = 10;
+        info.setText("");
+        guessLeftView.setText("");
+        highLow.setText("");
+        newGameBtn.setVisibility(View.GONE);
+        guessBtn.setVisibility(View.VISIBLE);
+        userGuess.setHint(R.string.guess_here);
             }
         });
+    }
 
+//    GUESS BUTTON
+    public void guessBtn(){
+        guessBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                guessEntered();
+        }
+    });
+    }
+
+//    KEEP KEYBOARD OPEN TO KEYPAD AND MAKE DONE BTN SUBMIT ANSWER
+    public void doneBtn(){
+        userGuess.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    guessEntered();
+                }
+                return guessLeft != 0;
+            }
+        });
+    }
+
+//    NEXT LEVEL BUTTON
+    public void nextLevelBtn(){
         nextLevelBtn.setVisibility(View.GONE);
         nextLevelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,91 +161,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-//            KEEP KEYBOARD OPEN TO KEYPAD AND MAKE DONE BTN SUBMIT ANSWER
-        userGuess.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    String value = userGuess.getText().toString();
-
-                    if (value.isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "Please enter a numerical guess", Toast.LENGTH_SHORT).show();
-                    } else {
-                        smallLarger();
-                        guessLeft();
-                        userGuess.getText().clear();
-                        userGuess.setHint(R.string.next_guess);
-                    }
-                }
-                return guessLeft != 0;
-            }
-        });
-
     }
 
-    //    method for larger or smaller / WIN OR LOSE
-    @SuppressLint("SetTextI18n")
-    public void smallLarger() {
+//    WHEN A USER ENTERS A NUMBER
+    public void guessEntered(){
+        String value = userGuess.getText().toString();
 
-        guessLeft = guessLeft - 1;
-
-        if (guessLeft >= 0) {
-            String value = userGuess.getText().toString();
-            int guess = Integer.parseInt(value);
-
-            if (randomNumber < guess) {
-                highLow.setText("It's smaller than " + guess + "." + randomNumber);
-            } else if (randomNumber > guess) {
-                highLow.setText("It's larger than " + guess + ".");
-            } else {
-                info.setText("CORRECT.. YOU WIN!! \n The random number was " + randomNumber);
-                nextLevelBtn.setVisibility(View.VISIBLE);
-                guessBtn.setVisibility(View.GONE);
-            }
+        if (value.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please enter a numerical guess", Toast.LENGTH_SHORT).show();;
         } else {
-            info.setText("Game Over... \n The random number was " + randomNumber);
-            newGameBtn.setVisibility(View.VISIBLE);
-            guessBtn.setVisibility(View.GONE);
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    public void guessLeft() {
-        guessLeftView.setText("You have " + guessLeft + " guesses left");
-    }
-
-    public void newGame() {
-        randomNumber = (int) (Math.random() * 100) + 1;
-        guessLeft = 10;
-        info.setText("");
-        guessLeftView.setText("");
-        highLow.setText("");
-        newGameBtn.setVisibility(View.GONE);
-        guessBtn.setVisibility(View.VISIBLE);
-        userGuess.setHint(R.string.guess_here);
-    }
-
-    public void guessBtn(){
-
-        //          GUESS BUTTON
-        guessBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String value = userGuess.getText().toString();
-
-                if (value.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter a numerical guess", Toast.LENGTH_SHORT).show();;
-                } else {
-                    smallLarger();
-                    guessLeft();
-                    userGuess.getText().clear();
-                    userGuess.setHint(R.string.next_guess);
-                }}
-        });
-    }
-
-//        todo: make new levels.
-//        todo: make better win or lose message.
+            smallLarger();
+            guessLeft();
+            userGuess.getText().clear();
+            userGuess.setHint(R.string.next_guess);
+        }}
 
 }
 
