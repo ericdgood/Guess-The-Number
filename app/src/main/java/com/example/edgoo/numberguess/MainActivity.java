@@ -11,6 +11,7 @@ import android.view.animation.RotateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button guessBtn;
     Button newGameBtn;
     Button nextLevelBtn;
+    LinearLayout popUpMessage;
     int randomNumber = (int) (Math.random() * 100) + 1;
 
     @Override
@@ -43,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         highLow = findViewById(R.id.highLow);
         newGameBtn = findViewById(R.id.new_game_btn);
         nextLevelBtn = findViewById(R.id.next_level_btn);
+        popUpMessage = findViewById(R.id.pop_up_message);
 
 
         guessBtn();
         newGameBtn();
         doneBtn();
         nextLevelBtn();
-
 
     }
 
@@ -67,25 +69,26 @@ public class MainActivity extends AppCompatActivity {
             } else if (guess < randomNumber) {
                 lowGuess();
             } else {
-                loseMethod();
+                winMethod();
             }
         } else {
-            winMethod();
+            loseMethod();
         }
     }
 
 //    WHAT HAPPENS IF USER WINS
     public void winMethod(){
-        info.setText("Game Over... \n The random number was " + randomNumber);
+        popUpMessage.setVisibility(View.VISIBLE);
+        info.setText("CORRECT.. YOU WIN!!  \n The random number was " + randomNumber);
+//        nextLevelBtn.setVisibility(View.VISIBLE);
         newGameBtn.setVisibility(View.VISIBLE);
-        guessBtn.setVisibility(View.GONE);
     }
 
 //    WHAT HAPPENS IF USER LOSES
     public void loseMethod(){
-        info.setText("CORRECT.. YOU WIN!! \n The random number was " + randomNumber);
-        nextLevelBtn.setVisibility(View.VISIBLE);
-        guessBtn.setVisibility(View.GONE);
+        popUpMessage.setVisibility(View.VISIBLE);
+        info.setText("Game Over... \n The random number was " + randomNumber);
+        newGameBtn.setVisibility(View.VISIBLE);
     }
 
 //    IF GUESS IS TO HIGH
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         String value = userGuess.getText().toString();
         int guess = Integer.parseInt(value);
 
-        highLow.setText("It's larger than " + guess + ".");
+        highLow.setText("It's larger than " + guess + "." + randomNumber);
     }
 
 //    GUESSES LEFT MESSAGE
@@ -124,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         newGameBtn.setVisibility(View.GONE);
         guessBtn.setVisibility(View.VISIBLE);
         userGuess.setHint(R.string.guess_here);
+        popUpMessage.setVisibility(View.GONE);
             }
         });
     }
@@ -153,11 +157,12 @@ public class MainActivity extends AppCompatActivity {
 //    NEXT LEVEL BUTTON
     public void nextLevelBtn(){
         nextLevelBtn.setVisibility(View.GONE);
+        popUpMessage.setVisibility(View.GONE);
         nextLevelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NextLevel.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, NextLevel.class);
+//                startActivity(intent);
 
             }
         });
