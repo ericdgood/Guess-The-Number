@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     Button guessBtn;
     Button newGameBtn;
     Button nextLevelBtn;
+    int level = 1;
+    TextView levelInfo;
     LinearLayout popUpMessage;
     int randomNumber = (int) (Math.random() * 100) + 1;
 
@@ -46,13 +48,14 @@ public class MainActivity extends AppCompatActivity {
         newGameBtn = findViewById(R.id.new_game_btn);
         nextLevelBtn = findViewById(R.id.next_level_btn);
         popUpMessage = findViewById(R.id.pop_up_message);
+        levelInfo = findViewById(R.id.level_info);
 
 
         guessBtn();
         newGameBtn();
         doneBtn();
         nextLevelBtn();
-
+        guessLeft();
     }
 
 //    method for larger or smaller / WIN OR LOSE
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         guessLeft = guessLeft - 1;
 
-        if (guessLeft >= 0) {
+        if (guessLeft > 0) {
             String value = userGuess.getText().toString();
             int guess = Integer.parseInt(value);
 
@@ -80,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
     public void winMethod(){
         popUpMessage.setVisibility(View.VISIBLE);
         info.setText("CORRECT.. YOU WIN!!  \n The random number was " + randomNumber);
-//        nextLevelBtn.setVisibility(View.VISIBLE);
-        newGameBtn.setVisibility(View.VISIBLE);
+        nextLevelBtn.setVisibility(View.VISIBLE);
+//        newGameBtn.setVisibility(View.VISIBLE);
     }
 
 //    WHAT HAPPENS IF USER LOSES
@@ -161,9 +164,7 @@ public class MainActivity extends AppCompatActivity {
         nextLevelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, NextLevel.class);
-//                startActivity(intent);
-
+                level2();
             }
         });
     }
@@ -180,6 +181,21 @@ public class MainActivity extends AppCompatActivity {
             userGuess.getText().clear();
             userGuess.setHint(R.string.next_guess);
         }}
+
+//        LEVEL 2
+    public void level2(){
+        randomNumber = (int) (Math.random() * 500) + 1;
+
+        guessLeft = 10;
+        info.setText("");
+        guessLeftView.setText("");
+        highLow.setText("");
+        newGameBtn.setVisibility(View.GONE);
+        guessBtn.setVisibility(View.VISIBLE);
+        userGuess.setHint(R.string.guess_here);
+        popUpMessage.setVisibility(View.GONE);
+        levelInfo.setText(R.string.level_2);
+    }
 
 }
 

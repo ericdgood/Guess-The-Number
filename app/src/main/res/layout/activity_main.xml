@@ -26,12 +26,13 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/level_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingBottom="15dp"
                 android:paddingTop="10dp"
-                android:text="@string/number_1_100"
+                android:text="@string/level_1"
                 android:textSize="18sp" />
 
             <EditText
