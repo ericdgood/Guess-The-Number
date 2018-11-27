@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="pop_up_message">#94fcc5</color>
-
+    <color name="colorPrimary">#bab8b8</color>
+    <color name="colorPrimaryDark">#C49D93</color>
+    <color name="colorAccent">#adcbe3</color>
+    <color name="pop_up_message">#72a0c5</color>
+    <color name="btn">#d3dfe9</color>
+    <color name="high">#db8582</color>
+    <color name="low">#9bd8a2</color>
+    <color name="none">#ffffff</color>
 </resources>
+
+

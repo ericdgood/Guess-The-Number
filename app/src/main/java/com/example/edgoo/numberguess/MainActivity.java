@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.view.inputmethod.EditorInfo;
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     int level = 1;
     TextView levelInfo;
     LinearLayout popUpMessage;
-    int randomNumber = (int) (Math.random() * 100) + 1;
+    int randomNumber = (int) (Math.random() * 10) + 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +54,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         guessBtn();
-        newGameBtn();
         doneBtn();
-        nextLevelBtn();
         guessLeft();
+
+        setTitle(R.string.level_1);
     }
 
-//    method for larger or smaller / WIN OR LOSE
+    //    method for larger or smaller / WIN OR LOSE
     public void smallLarger() {
 
         guessLeft = guessLeft - 1;
@@ -79,74 +81,93 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    WHAT HAPPENS IF USER WINS
-    public void winMethod(){
+    //    WHAT HAPPENS IF USER WINS
+    public void winMethod() {
         popUpMessage.setVisibility(View.VISIBLE);
         info.setText("CORRECT.. YOU WIN!!  \n The random number was " + randomNumber);
+        newGameBtn.setVisibility(View.GONE);
         nextLevelBtn.setVisibility(View.VISIBLE);
-//        newGameBtn.setVisibility(View.VISIBLE);
+        nextLevelBtn();
     }
 
-//    WHAT HAPPENS IF USER LOSES
-    public void loseMethod(){
+    //    WHAT HAPPENS IF USER LOSES
+    public void loseMethod() {
         popUpMessage.setVisibility(View.VISIBLE);
         info.setText("Game Over... \n The random number was " + randomNumber);
         newGameBtn.setVisibility(View.VISIBLE);
+        nextLevelBtn.setVisibility(View.GONE);
+        newGameBtn();
     }
 
-//    IF GUESS IS TO HIGH
-    public void highGuess(){
+    //    IF GUESS IS TO HIGH
+    public void highGuess() {
         String value = userGuess.getText().toString();
         int guess = Integer.parseInt(value);
-
+        highLow.setBackgroundResource(R.color.high);
         highLow.setText("It's smaller than " + guess + ".");
     }
 
-//    IF GUESS IS TO SMALL
-    public void lowGuess(){
+    //    IF GUESS IS TO SMALL
+    public void lowGuess() {
         String value = userGuess.getText().toString();
         int guess = Integer.parseInt(value);
-
-        highLow.setText("It's larger than " + guess + "." + randomNumber);
+        highLow.setBackgroundResource(R.color.low);
+        highLow.setText("It's larger than " + guess + ".");
     }
 
-//    GUESSES LEFT MESSAGE
+    //    GUESSES LEFT MESSAGE
     public void guessLeft() {
 
         guessLeftView.setText("You have " + guessLeft + " guesses left");
     }
 
-//    NEW GAME BUTTON
+    //    NEW GAME BUTTON
     public void newGameBtn() {
-        newGameBtn.setVisibility(View.GONE);
         newGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-        randomNumber = (int) (Math.random() * 100) + 1;
-        guessLeft = 10;
-        info.setText("");
-        guessLeftView.setText("");
-        highLow.setText("");
-        newGameBtn.setVisibility(View.GONE);
-        guessBtn.setVisibility(View.VISIBLE);
-        userGuess.setHint(R.string.guess_here);
-        popUpMessage.setVisibility(View.GONE);
+                randomNumber = (int) (Math.random() * 10) + 1;
+                guessLeft = 10;
+                guessLeft();
+                highLow.setText("");
+                guessBtn.setVisibility(View.VISIBLE);
+                userGuess.setHint(R.string.guess_here);
+                popUpMessage.setVisibility(View.GONE);
+                highLow.setBackgroundResource(R.color.none);
+                setTitle(R.string.level_1);
+                levelInfo.setText(R.string.level_1_info);
             }
         });
     }
 
-//    GUESS BUTTON
-    public void guessBtn(){
+    public void newGameMenu(){
+        randomNumber = (int) (Math.random() * 10) + 1;
+        guessLeft = 10;
+        guessLeft();
+        highLow.setText("");
+        guessBtn.setVisibility(View.VISIBLE);
+        userGuess.setHint(R.string.guess_here);
+        popUpMessage.setVisibility(View.GONE);
+        highLow.setBackgroundResource(R.color.none);
+        setTitle(R.string.level_1);
+        levelInfo.setText(R.string.level_1_info);
+    }
+
+    //    GUESS BUTTON
+    public void guessBtn() {
+        nextLevelBtn.setVisibility(View.GONE);
+        popUpMessage.setVisibility(View.GONE);
+        newGameBtn.setVisibility(View.GONE);
         guessBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 guessEntered();
-        }
-    });
+            }
+        });
     }
 
-//    KEEP KEYBOARD OPEN TO KEYPAD AND MAKE DONE BTN SUBMIT ANSWER
-    public void doneBtn(){
+    //    KEEP KEYBOARD OPEN TO KEYPAD AND MAKE DONE BTN SUBMIT ANSWER
+    public void doneBtn() {
         userGuess.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
@@ -157,45 +178,146 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    NEXT LEVEL BUTTON
-    public void nextLevelBtn(){
-        nextLevelBtn.setVisibility(View.GONE);
-        popUpMessage.setVisibility(View.GONE);
+    //    NEXT LEVEL BUTTON
+    public void nextLevelBtn() {
         nextLevelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                level2();
+                level = level + 1;
+                switch (level) {
+                    case 2:
+                        level2();
+                        break;
+                    case 3:
+                        level3();
+                        break;
+                    case 4:
+                        level4();
+                        break;
+                    case 5:
+                        level5();
+                        break;
+                    case 6:
+                        level6();
+                        break;
+                    case 7:
+                        level7();
+                        break;
+                    case 8:
+                        level8();
+                        break;
+                    default:
+                }
             }
         });
     }
 
-//    WHEN A USER ENTERS A NUMBER
-    public void guessEntered(){
+    //    WHEN A USER ENTERS A NUMBER
+    public void guessEntered() {
         String value = userGuess.getText().toString();
 
         if (value.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please enter a numerical guess", Toast.LENGTH_SHORT).show();;
+            Toast.makeText(getApplicationContext(), "Please enter a numerical guess", Toast.LENGTH_SHORT).show();
+            ;
         } else {
             smallLarger();
             guessLeft();
             userGuess.getText().clear();
             userGuess.setHint(R.string.next_guess);
-        }}
+        }
+    }
 
-//        LEVEL 2
-    public void level2(){
-        randomNumber = (int) (Math.random() * 500) + 1;
-
-        guessLeft = 10;
+    //    RESETS ITEMS FOR NEXT LEVEL
+    public void nextLevelReset() {
+        guessLeft = guessLeft + 10;
+        guessLeft();
+        highLow.setBackgroundResource(R.color.none);
         info.setText("");
-        guessLeftView.setText("");
         highLow.setText("");
-        newGameBtn.setVisibility(View.GONE);
         guessBtn.setVisibility(View.VISIBLE);
         userGuess.setHint(R.string.guess_here);
         popUpMessage.setVisibility(View.GONE);
-        levelInfo.setText(R.string.level_2);
     }
 
+    //        LEVEL 2
+    public void level2() {
+        nextLevelReset();
+        randomNumber = (int) (Math.random() * 50) + 1;
+        levelInfo.setText(R.string.level_2_info);
+        setTitle(R.string.level_2);
+    }
+
+    //        LEVEL 3
+    public void level3() {
+        randomNumber = (int) (Math.random() * 100) + 1;
+        nextLevelReset();
+        levelInfo.setText(R.string.level_3_info);
+        setTitle(R.string.level_3);
+    }
+
+    //        LEVEL 4
+    public void level4() {
+        randomNumber = (int) (Math.random() * 500) + 1;
+        nextLevelReset();
+        levelInfo.setText(R.string.level_4_info);
+        setTitle(R.string.level_4);
+    }
+
+    //        LEVEL 5
+    public void level5() {
+        randomNumber = (int) (Math.random() * 1000) + 1;
+        nextLevelReset();
+        levelInfo.setText(R.string.level_5_info);
+        setTitle(R.string.level_5);
+    }
+
+    //        LEVEL 6
+    public void level6() {
+        randomNumber = (int) (Math.random() * 5000) + 1;
+        nextLevelReset();
+        levelInfo.setText(R.string.level_6_info);
+        setTitle(R.string.level_6);
+    }
+
+    //        LEVEL 7
+    public void level7() {
+        randomNumber = (int) (Math.random() * 10000) + 1;
+        nextLevelReset();
+        levelInfo.setText(R.string.level_7_info);
+        setTitle(R.string.level_7);
+    }
+
+    //        LEVEL 8
+    public void level8() {
+        randomNumber = (int) (Math.random() * 50000) + 1;
+        nextLevelReset();
+        levelInfo.setText(R.string.level_8_info);
+        setTitle(R.string.level_8);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.newgamemenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        MenuItem newgame = menu.findItem(R.id.new_game);
+        newgame.setVisible(true);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_game:
+                newGameMenu();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
 
