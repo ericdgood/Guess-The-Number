@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Number Guess</string>
+    <string name="app_name">Guess The Number</string>
     <string name="can_you_guess_it">Can you guess the number?</string>
     <string name="guess_here">Guess Here</string>
     <string name="new_game">New game</string>
@@ -29,7 +29,9 @@
     <string name="level_7">Level 7</string>
     <string name="level_7_info">Guess the random number between 1 and 10,000</string>
 
-    <string name="level_8">Level 8</string>
+    <string name="level_8">8</string>
     <string name="level_8_info">Guess the random number between 1 and 50,000</string>
+    <string name="high_level"><u>High Level</u></string>
+    <string name="level">Level</string>
 
 </resources>
