@@ -31,7 +31,8 @@
 
     <string name="level_8">8</string>
     <string name="level_8_info">Guess the random number between 1 and 50,000</string>
-    <string name="high_level"><u>High Level</u></string>
+    <string name="high_score"><u>High Score</u></string>
     <string name="level">Level</string>
+    <string name="one_through">1 -</string>
 
 </resources>
