@@ -1,8 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_gradient">
+
+    <TextView
+        android:id="@+id/level_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/level_1"
+        android:textColor="@color/bright_white_text"
+        style="@style/center_horizonal_item"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="8dp"
+        android:textSize="32sp"
+        android:textStyle="italic|bold"/>
+
+        <View style="@style/DivideLine"
+            android:id="@+id/dividerLineForLevelTitle"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent=".7"
+            app:layout_constraintTop_toBottomOf="@id/level_title" />
+
+    <TextView
+        android:id="@+id/guessesLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="You have 10 Guesses"
+        android:textSize="24sp"
+        android:textColor="@color/white_text"
+        android:paddingTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/guessTheNumber"
+        app:layout_constraintTop_toBottomOf="@id/dividerLineForLevelTitle"
+        style="@style/center_horizonal_item"/>
+
+    <TextView
+        android:id="@+id/guessTheNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/guess_the_random_number_between"
+        android:textSize="18sp"
+        android:textColor="@color/white_text"
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/guessesLeft"
+        style="@style/center_horizonal_item"/>
+
+    <LinearLayout
+        android:id="@+id/guessRangeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:padding="15dp"
+        app:layout_constraintTop_toBottomOf="@id/guessTheNumber">
+
+        <TextView
+            android:id="@+id/oneThrough"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/one_through"
+            android:textColor="@color/white_text"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/guess_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="1,000,000"
+            android:textColor="@color/white_text"
+            android:textSize="18sp"
+            android:paddingLeft="10dp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+    <!--todo:make hint say next guess after first guess-->
+    <EditText
+        android:id="@+id/guessEditText"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:inputType="number"
+        android:gravity="center"
+        app:layout_constraintWidth_percent=".55"
+        android:hint="@string/guess_here"
+        style="@style/center_horizonal_item"
+        app:layout_constraintTop_toBottomOf="@id/guessRangeLayout"/>
+
+    <LinearLayout
+        android:id="@+id/hint_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/center_horizonal_item"
+        android:padding="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/guessEditText"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/hint_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/ic_arrow_drop_down_circle"
+            android:contentDescription="@string/hint_arrow" />
+
+        <TextView
+            android:id="@+id/hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="The number is larger than 78"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/guessBtn"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent=".70"
+        android:layout_height="wrap_content"
+        android:text="@string/guess"
+        android:textColor="@color/grey"
+        style="@style/center_horizonal_item"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/radius_corners_btn"
+        app:layout_constraintTop_toBottomOf="@id/hint_layout"/>
 
 </android.support.constraint.ConstraintLayout>
