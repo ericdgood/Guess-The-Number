@@ -2,6 +2,7 @@ package com.example.edgoo.numberguess.RoomData;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -9,10 +10,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.edgoo.numberguess.Fragments.GameFragment;
 import com.example.edgoo.numberguess.R;
 
 import java.util.Objects;
@@ -39,6 +42,8 @@ public class GameActivity extends AppCompatActivity {
     LinearLayout hintLayout;
     @BindView(R.id.hint_arrow)
     ImageView hintArrow;
+    @BindView(R.id.game_fragment)
+    FrameLayout gameFragmentLayout;
 
     int userGuess;
 
@@ -66,17 +71,23 @@ public class GameActivity extends AppCompatActivity {
             getUserGuess();
             checkUserGuess(userGuess, randomNumber);
         });
-
     }
 
     public Integer getRandomNumber (){
-        return new Random().nextInt(10) + 1;
+        return new Random().nextInt(3) + 1;
     }
 
 
     public void checkUserGuess(int userGuess, int randomNumber){
         if (userGuess == randomNumber){
-            hintArrow.setColorFilter(getResources().getColor(R.color.btn));
+
+            gameFragmentLayout.setVisibility(View.VISIBLE);
+
+            GameFragment gameFragment = new GameFragment();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.game_fragment, gameFragment)
+                    .commit();
         }
     }
 
