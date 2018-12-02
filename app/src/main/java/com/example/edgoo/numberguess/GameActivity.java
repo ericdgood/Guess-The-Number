@@ -1,12 +1,12 @@
 package com.example.edgoo.numberguess;
 
 import android.content.Context;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,8 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.edgoo.numberguess.Fragments.CorrectGameFragment;
-import com.example.edgoo.numberguess.Fragments.LoserGameFragment;
-import com.example.edgoo.numberguess.R;
+import com.example.edgoo.numberguess.Fragments.LosingGameFragment;
 
 import java.util.Objects;
 import java.util.Random;
@@ -33,7 +32,7 @@ import butterknife.ButterKnife;
 
 public class GameActivity extends AppCompatActivity {
 
-    private static final String TAG = "logtag";
+    private static final String TAG = "test";
     @BindView(R.id.level_title)
     TextView levelTitle;
     @BindView(R.id.guessesLeft)
@@ -65,17 +64,13 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.game_activity);
         ButterKnife.bind(this);
 
-//        SETS ACTIONBAR BLANK AND REMOVES SHADOW
-        setTitle("");
-        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
-
-        levelTitle.setText(R.string.level + level);
-
-        String guessesLeftString = ("You have " + String.valueOf(guessesLeft) + " guesses.");
-        guessesLeftView.setText(guessesLeftString);
-
+        getInfoForNewLevel();
+        setLevelInfo();
         setLevelMaxRange();
-        randomNumber = getRandomNumber();
+        getRandomNumber();
+
+//        SHOWS RANDOM NUMBER FOR TESTING
+        Log.i(TAG, "random number: " + randomNumber);
 
 //        GETS USERS GUESS
         doneBtn();
@@ -90,6 +85,7 @@ public class GameActivity extends AppCompatActivity {
         hintDisplay();
         guessesLeft();
         UserGuessEditText.getText().clear();
+        UserGuessEditText.setHint("Next Guess");
     }
 
     public void setLevelMaxRange() {
@@ -106,8 +102,8 @@ public class GameActivity extends AppCompatActivity {
         guessange.setText(String.valueOf(levelMaxRange));
     }
 
-    public Integer getRandomNumber() {
-        return new Random().nextInt(levelMaxRange - 1) + 1;
+    public void getRandomNumber() {
+        randomNumber = new Random().nextInt(levelMaxRange - 1) + 1;
     }
 
     public void guessesLeft() {
@@ -118,7 +114,9 @@ public class GameActivity extends AppCompatActivity {
         } else {
 //            DO THIS IF OUT OF GUESSES OR LOSE
             gameFragmentLayout.setVisibility(View.VISIBLE);
-            LoserGameFragment LoseGameFragment = new LoserGameFragment();
+            hideKeybord();
+            LosingGameFragment LoseGameFragment = new LosingGameFragment();
+            LoseGameFragment.getLosingFragInfo(randomNumber);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.game_fragment, LoseGameFragment)
@@ -130,9 +128,12 @@ public class GameActivity extends AppCompatActivity {
         if (userGuess == randomNumber) {
             gameFragmentLayout.setVisibility(View.VISIBLE);
 
+            level++;
+
             hideKeybord();
             CorrectGameFragment correctGameFragment = new CorrectGameFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
+            correctGameFragment.getCorrectFragInfo(level, levelMaxRange);
             fragmentManager.beginTransaction()
                     .replace(R.id.game_fragment, correctGameFragment)
                     .commit();
@@ -194,6 +195,23 @@ public class GameActivity extends AppCompatActivity {
             hintArrow.setColorFilter(getResources().getColor(R.color.low));
             hintMessage.setText(smallerThan);
         }
+    }
+
+    public void getInfoForNewLevel(){
+        level = getIntent().getIntExtra("level", 1);
+        levelMaxRange = getIntent().getIntExtra("levelMax", 10);
+    }
+
+    public void setLevelInfo(){
+//        SETS ACTIONBAR BLANK AND REMOVES SHADOW
+        setTitle("");
+        Objects.requireNonNull(getSupportActionBar()).setElevation(0);
+//        SET LEVEL TITLE
+        String levelTitleString = (getString(R.string.level) + " " + String.valueOf(level));
+        levelTitle.setText(levelTitleString);
+//      todo: underline guessesleft
+        String guessesLeftString = ("You have " + String.valueOf(guessesLeft) + " guesses.");
+        guessesLeftView.setText(guessesLeftString);
     }
 
     //    OPTION FOR NEW GAME

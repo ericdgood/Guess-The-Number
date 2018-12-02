@@ -40,5 +40,7 @@
     <string name="level">Level</string>
     <string name="large_than">The number is larger than </string>
     <string name="smaller_than">The number is smaller than </string>
+    <string name="you_ran_out_of_guesses">You ran out of guesses.</string>
+    <string name="try_again">Try again</string>
 
 </resources>

@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/radius_corners">
+    android:background="@drawable/radius_corners"
+    android:gravity="center"
+    android:padding="16dp">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Congrats"
         android:textSize="34sp"
         android:gravity="center"/>
+
+    <Button
+        android:id="@+id/next_level_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/next_level"
+        android:background="@drawable/radius_corners_btn"/>
 
 </LinearLayout>
