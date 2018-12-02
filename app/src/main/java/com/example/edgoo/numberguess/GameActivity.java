@@ -1,11 +1,17 @@
 package com.example.edgoo.numberguess;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -53,10 +59,10 @@ public class GameActivity extends AppCompatActivity {
     FrameLayout gameFragmentLayout;
 
     int userGuess;
-    int level = 1;
+    int level;
     int randomNumber;
     int levelMaxRange;
-    int guessesLeft = 10;
+    int guessesLeft;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,12 +86,13 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void onGuess(){
-        getUserGuess();
-        checkUserGuess(userGuess, randomNumber);
-        hintDisplay();
-        guessesLeft();
-        UserGuessEditText.getText().clear();
-        UserGuessEditText.setHint("Next Guess");
+        if (getUserGuess()) {
+            getUserGuess();
+            checkUserGuess(userGuess, randomNumber);
+            hintDisplay();
+            UserGuessEditText.getText().clear();
+            UserGuessEditText.setHint("Next Guess");
+        }
     }
 
     public void setLevelMaxRange() {
@@ -106,6 +113,7 @@ public class GameActivity extends AppCompatActivity {
         randomNumber = new Random().nextInt(levelMaxRange - 1) + 1;
     }
 
+//      CHECKS NUMBER OF GUESSES AND SHOWS LOSING FRAG IF NO GUESSES LEFT
     public void guessesLeft() {
         guessesLeft--;
         if (guessesLeft > 0) {
@@ -116,7 +124,7 @@ public class GameActivity extends AppCompatActivity {
             gameFragmentLayout.setVisibility(View.VISIBLE);
             hideKeybord();
             LosingGameFragment LoseGameFragment = new LosingGameFragment();
-            LoseGameFragment.getLosingFragInfo(randomNumber);
+            LoseGameFragment.getLosingFragInfo(this, randomNumber);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.game_fragment, LoseGameFragment)
@@ -124,16 +132,17 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+//      CHECKS ANSWER AND SHOWS CORRECT FRAG IF CORRECT
     public void checkUserGuess(int userGuess, int randomNumber) {
+        guessesLeft();
         if (userGuess == randomNumber) {
             gameFragmentLayout.setVisibility(View.VISIBLE);
-
             level++;
-
             hideKeybord();
+
             CorrectGameFragment correctGameFragment = new CorrectGameFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
-            correctGameFragment.getCorrectFragInfo(level, levelMaxRange);
+            correctGameFragment.getCorrectFragInfo(this, level, levelMaxRange, guessesLeft);
             fragmentManager.beginTransaction()
                     .replace(R.id.game_fragment, correctGameFragment)
                     .commit();
@@ -163,19 +172,21 @@ public class GameActivity extends AppCompatActivity {
                 InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
-    public void getUserGuess() {
+    public Boolean getUserGuess() {
         Boolean userGuessDigitOnly = TextUtils.isDigitsOnly(UserGuessEditText.getText().toString());
         String userGuessString = (UserGuessEditText.getText().toString());
 
         if (!userGuessDigitOnly || userGuessString.equals("")) {
 //           DO THIS IF USER ENTERS LETTERS OR ENTERS NO VALUE
             Toast.makeText(this, "Enter your guess", Toast.LENGTH_SHORT).show();
+            return false;
         } else if (Integer.parseInt(userGuessString) > levelMaxRange) {
 //           DO THIS IF GUESS IS TO LARGE
             Toast.makeText(this, "Enter a value under " + levelMaxRange, Toast.LENGTH_SHORT).show();
         } else {
             userGuess = Integer.parseInt(userGuessString);
         }
+        return true;
     }
 
     //    SHOWS HINT DISPLAY AFTER GUESS
@@ -187,12 +198,12 @@ public class GameActivity extends AppCompatActivity {
         if (userGuess < randomNumber) {
 //            DO THIS IS GUESS IS SMALLER THAN NUMBER
             hintArrow.setImageResource(R.drawable.ic_arrow_upward);
-            hintArrow.setColorFilter(getResources().getColor(R.color.high));
+            hintArrow.setColorFilter(getResources().getColor(R.color.low));
             hintMessage.setText(largeThan);
         } else {
 //            DO THIS IS GUESS IS SMALLER THAN NUMBER
             hintArrow.setImageResource(R.drawable.ic_arrow_downward);
-            hintArrow.setColorFilter(getResources().getColor(R.color.low));
+            hintArrow.setColorFilter(getResources().getColor(R.color.high));
             hintMessage.setText(smallerThan);
         }
     }
@@ -200,6 +211,7 @@ public class GameActivity extends AppCompatActivity {
     public void getInfoForNewLevel(){
         level = getIntent().getIntExtra("level", 1);
         levelMaxRange = getIntent().getIntExtra("levelMax", 10);
+        guessesLeft = getIntent().getIntExtra("guessesLeft", 0);
     }
 
     public void setLevelInfo(){
@@ -210,6 +222,7 @@ public class GameActivity extends AppCompatActivity {
         String levelTitleString = (getString(R.string.level) + " " + String.valueOf(level));
         levelTitle.setText(levelTitleString);
 //      todo: underline guessesleft
+        guessesLeft = guessesLeft + 10;
         String guessesLeftString = ("You have " + String.valueOf(guessesLeft) + " guesses.");
         guessesLeftView.setText(guessesLeftString);
     }
@@ -225,7 +238,9 @@ public class GameActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_game:
-//                newGameMenu();
+                Intent returnHome = new Intent(this, Main_Activity.class);
+                startActivity(returnHome);
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/radius_corners"
     android:gravity="center"
     android:padding="16dp">
-
+<!--TODO: MAKE THE WINNING MESSAGE CHANGE PER LEVEL-->
     <TextView
+        android:id="@+id/winning_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Congrats"
+        android:text="@string/great_job"
         android:textSize="34sp"
+        android:padding="16dp"
         android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/guessesLeftMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="2"
+        android:gravity="center_horizontal"
+        android:textSize="18sp"
+        android:padding="8dp"
+        tools:text="You had 5 guesses left. \n Use them on the next level"/>
 
     <Button
         android:id="@+id/next_level_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/next_level"
+        android:layout_marginTop="16dp"
         android:background="@drawable/radius_corners_btn"/>
 
 </LinearLayout>

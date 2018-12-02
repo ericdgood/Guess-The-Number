@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.edgoo.numberguess.GameActivity;
 import com.example.edgoo.numberguess.Main_Activity;
 import com.example.edgoo.numberguess.R;
 
@@ -26,11 +27,13 @@ public class LosingGameFragment extends Fragment {
     TextView losingGameAnswer;
 
     int randomNumber;
+    GameActivity gameActivity;
 
     public LosingGameFragment() {
     }
 
-    public void getLosingFragInfo(int randomNumber) {
+    public void getLosingFragInfo(GameActivity gameActivity, int randomNumber) {
+        this.gameActivity = gameActivity;
         this.randomNumber = randomNumber;
     }
 
@@ -47,6 +50,7 @@ public class LosingGameFragment extends Fragment {
             losingGameBtn.setOnClickListener( v -> {
                 Intent returnHome = new Intent(getActivity(), Main_Activity.class);
                 startActivity(returnHome);
+                gameActivity.finish();
             });
 
         return rootView;

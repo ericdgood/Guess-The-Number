@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.edgoo.numberguess.GameActivity;
 import com.example.edgoo.numberguess.Main_Activity;
@@ -21,16 +22,22 @@ public class CorrectGameFragment extends Fragment {
 
     @BindView(R.id.next_level_btn)
     Button nextLeveBtn;
+    @BindView(R.id.guessesLeftMessage)
+    TextView guessesLeftMessage;
 
     int level;
     int levelMaxRange;
+    int guessesLeft;
+    GameActivity gameActivity;
 
     public CorrectGameFragment() {
     }
 
-    public void getCorrectFragInfo(int level, int levelMaxRange){
+    public void getCorrectFragInfo(GameActivity gameActivity, int level, int levelMaxRange, int guessesLeft){
+        this.gameActivity = gameActivity;
         this.level = level;
         this.levelMaxRange = levelMaxRange;
+        this.guessesLeft = guessesLeft;
     }
 
     @Nullable
@@ -40,11 +47,16 @@ public class CorrectGameFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.correct_game_fragment, container, false);
         ButterKnife.bind(this, rootView);
 
+        String guessesLeftMessageString = "You had " + String.valueOf(guessesLeft) + " guesses left.\nUse them on the next level";
+        guessesLeftMessage.setText(guessesLeftMessageString);
+
         nextLeveBtn.setOnClickListener( v -> {
             Intent nextLevel = new Intent(getActivity(), GameActivity.class);
             nextLevel.putExtra("level", level);
             nextLevel.putExtra("levelMax", levelMaxRange);
+            nextLevel.putExtra("guessesLeft", guessesLeft);
             startActivity(nextLevel);
+            gameActivity.finish();
         });
 
         return rootView;
