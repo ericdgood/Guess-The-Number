@@ -1,17 +1,17 @@
 package com.example.edgoo.numberguess;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -29,6 +29,8 @@ import android.widget.Toast;
 
 import com.example.edgoo.numberguess.Fragments.CorrectGameFragment;
 import com.example.edgoo.numberguess.Fragments.LosingGameFragment;
+import com.example.edgoo.numberguess.RoomData.AppDatabase;
+import com.example.edgoo.numberguess.RoomData.NumberGuessData;
 
 import java.util.Objects;
 import java.util.Random;
@@ -137,6 +139,7 @@ public class GameActivity extends AppCompatActivity {
         guessesLeft();
         if (userGuess == randomNumber) {
             gameFragmentLayout.setVisibility(View.VISIBLE);
+            savehighscore();
             level++;
             hideKeybord();
 
@@ -183,6 +186,7 @@ public class GameActivity extends AppCompatActivity {
         } else if (Integer.parseInt(userGuessString) > levelMaxRange) {
 //           DO THIS IF GUESS IS TO LARGE
             Toast.makeText(this, "Enter a value under " + levelMaxRange, Toast.LENGTH_SHORT).show();
+            return false;
         } else {
             userGuess = Integer.parseInt(userGuessString);
         }
@@ -244,5 +248,29 @@ public class GameActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+//    SAVE HIGH SCORE
+    public void savehighscore(){
+        final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "number_guess")
+                .fallbackToDestructiveMigration()
+                .allowMainThreadQueries()
+                .build();
+
+            NumberGuessData highScore = new NumberGuessData(level, levelMaxRange);
+            db.numberGuessDao().insertAll(highScore);
+    }
+
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setMessage("are you sure you want to quit?")
+                .setPositiveButton("quit", (dialog, which) -> {
+                    Intent returnHome = new Intent(getBaseContext(), Main_Activity.class);
+                    startActivity(returnHome);
+                    finish();
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }
