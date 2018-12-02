@@ -1,6 +1,5 @@
 package com.example.edgoo.numberguess.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,16 +10,16 @@ import android.view.ViewGroup;
 
 import com.example.edgoo.numberguess.R;
 
-public class GameFragment extends Fragment {
+public class CorrectGameFragment extends Fragment {
 
-    public GameFragment() {
+    public CorrectGameFragment() {
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Create view
-        View rootView = inflater.inflate(R.layout.game_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.correct_game_fragment, container, false);
 
         return rootView;
     }

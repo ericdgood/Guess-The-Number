@@ -34,9 +34,11 @@
 
     <!--NEW STRINGS-->
     <string name="high_score"><u>High Score</u></string>
-    <string name="level">Level</string>
     <string name="one_through">1 -</string>
     <string name="guess_the_random_number_between">Guess the random number between</string>
     <string name="hint_arrow">hint Arrow</string>
+    <string name="level">Level</string>
+    <string name="large_than">The number is larger than </string>
+    <string name="smaller_than">The number is smaller than </string>
 
 </resources>

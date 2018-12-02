@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.edgoo.numberguess.RoomData.GameActivity;
-
 import java.util.Objects;
 
 import butterknife.BindView;
