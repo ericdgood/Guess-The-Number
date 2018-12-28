@@ -1,4 +1,4 @@
-package com.example.edgoo.numberguess.Fragments;
+package com.numberguess.edgoo.numberguess.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.edgoo.numberguess.GameActivity;
-import com.example.edgoo.numberguess.Main_Activity;
-import com.example.edgoo.numberguess.R;
+import com.numberguess.edgoo.numberguess.GameActivity;
+import com.numberguess.edgoo.numberguess.Main_Activity;
+import com.numberguess.edgoo.numberguess.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

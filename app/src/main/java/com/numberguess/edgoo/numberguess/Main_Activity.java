@@ -1,4 +1,4 @@
-package com.example.edgoo.numberguess;
+package com.numberguess.edgoo.numberguess;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
@@ -11,8 +11,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.edgoo.numberguess.RoomData.AppDatabase;
-import com.example.edgoo.numberguess.RoomData.NumberGuessData;
+import com.numberguess.edgoo.numberguess.RoomData.AppDatabase;
+import com.numberguess.edgoo.numberguess.RoomData.NumberGuessData;
 
 import java.util.Objects;
 
@@ -64,13 +64,14 @@ public class Main_Activity extends AppCompatActivity {
 
         int highLevelData = db.numberGuessDao().gethighLevel();
         int highRangeData = db.numberGuessDao().gethighRange();
+        String highRangeDataString =  GameActivity.getFormatedAmount(highRangeData);
         if (highLevelData == 0){
             levelLabel.setVisibility(View.GONE);
             highlevelRangeLayout.setVisibility(View.GONE);
             highLevel.setText(R.string.no_record);
         } else {
             highLevel.setText(String.valueOf(highLevelData));
-            highLevelRange.setText(String.valueOf(highRangeData));
+            highLevelRange.setText(highRangeDataString);
         }
     }
 }

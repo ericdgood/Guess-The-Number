@@ -1,4 +1,4 @@
-package com.example.edgoo.numberguess;
+package com.numberguess.edgoo.numberguess;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

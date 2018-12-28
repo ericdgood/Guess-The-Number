@@ -1,9 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
+//    signingConfigs {
+//        config {
+//            keyAlias 'pureimaginationapps'
+//            keyPassword 'And2018!'
+//            storeFile file('C:/Users/Edgoo/Desktop/numberguess.jks')
+//            storePassword 'And2018!'
+//        }
+//    }
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.edgoo.numberguess"
+        applicationId "com.nuumberguess.edgoo.numberguess"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -15,6 +23,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+//        debug {
+//            signingConfig signingConfigs.config
+//        }
     }
     buildToolsVersion '28.0.3'
     compileOptions {
@@ -30,13 +41,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-//    PICOSSO
+    //    PICOSSO
     implementation 'com.squareup.picasso:picasso:2.5.2'
-//    ROOM DATABASE
-    implementation "android.arch.persistence.room:runtime:1.1.1"
+    //    ROOM DATABASE
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-//    BUTTER KNIFE
+    //    BUTTER KNIFE
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
-
 }

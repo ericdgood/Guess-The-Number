@@ -1,4 +1,4 @@
-package com.example.edgoo.numberguess.RoomData;
+package com.numberguess.edgoo.numberguess.RoomData;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;

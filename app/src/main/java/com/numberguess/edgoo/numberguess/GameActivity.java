@@ -1,4 +1,4 @@
-package com.example.edgoo.numberguess;
+package com.numberguess.edgoo.numberguess;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -27,11 +27,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.edgoo.numberguess.Fragments.CorrectGameFragment;
-import com.example.edgoo.numberguess.Fragments.LosingGameFragment;
-import com.example.edgoo.numberguess.RoomData.AppDatabase;
-import com.example.edgoo.numberguess.RoomData.NumberGuessData;
+import com.numberguess.edgoo.numberguess.Fragments.CorrectGameFragment;
+import com.numberguess.edgoo.numberguess.Fragments.LosingGameFragment;
+import com.numberguess.edgoo.numberguess.RoomData.AppDatabase;
+import com.numberguess.edgoo.numberguess.RoomData.NumberGuessData;
 
+import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -87,6 +89,18 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("guesses_left", guessesLeft);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        guessesLeft = (int) savedInstanceState.get("guesses_left");
+    }
+
     public void onGuess(){
         if (getUserGuess()) {
             getUserGuess();
@@ -107,8 +121,8 @@ public class GameActivity extends AppCompatActivity {
 //            DO THIS IS LEVEL IS ODD
             levelMaxRange = levelMaxRange * 2;
         }
-
-        guessange.setText(String.valueOf(levelMaxRange));
+        String levelMaxRangeString = getFormatedAmount(levelMaxRange);
+        guessange.setText(levelMaxRangeString);
     }
 
     public void getRandomNumber() {
@@ -272,5 +286,9 @@ public class GameActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    public static String getFormatedAmount(int amount){
+        return NumberFormat.getNumberInstance(Locale.US).format(amount);
     }
 }

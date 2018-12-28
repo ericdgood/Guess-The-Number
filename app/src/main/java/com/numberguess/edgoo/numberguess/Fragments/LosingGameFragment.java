@@ -1,4 +1,4 @@
-package com.example.edgoo.numberguess.Fragments;
+package com.numberguess.edgoo.numberguess.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.edgoo.numberguess.GameActivity;
-import com.example.edgoo.numberguess.Main_Activity;
-import com.example.edgoo.numberguess.R;
+import com.numberguess.edgoo.numberguess.GameActivity;
+import com.numberguess.edgoo.numberguess.Main_Activity;
+import com.numberguess.edgoo.numberguess.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +44,9 @@ public class LosingGameFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.losing_game_fragment, container, false);
         ButterKnife.bind(this, rootView);
 
-        String losingString = "The random number was " + String.valueOf(randomNumber);
+
+        String levelMaxRangeString = GameActivity.getFormatedAmount(randomNumber);
+        String losingString = "The random number was " + levelMaxRangeString;
             losingGameAnswer.setText(losingString);
 
             losingGameBtn.setOnClickListener( v -> {
