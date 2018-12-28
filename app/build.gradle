@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-//    signingConfigs {
-//        config {
-//            keyAlias 'pureimaginationapps'
-//            keyPassword 'And2018!'
-//            storeFile file('C:/Users/Edgoo/Desktop/numberguess.jks')
-//            storePassword 'And2018!'
-//        }
-//    }
+    signingConfigs {
+        config {
+            keyAlias 'pureimaginationapps'
+            keyPassword 'And2018!'
+            storeFile file('C:/Users/Edgoo/Desktop/numberguess.jks')
+            storePassword 'And2018!'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.nuumberguess.edgoo.numberguess"
@@ -54,6 +54,7 @@ dependencies {
     //    BUTTER KNIFE
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

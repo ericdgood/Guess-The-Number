@@ -44,5 +44,6 @@
     <string name="try_again">Try again</string>
     <string name="great_job">Great Job!!</string>
     <string name="no_record">No record set yet</string>
+    <string name="title_activity_firebase_high_score">FirebaseHighScore</string>
 
 </resources>
