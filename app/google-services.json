@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "596277009281",
+    "firebase_url": "https://numberguess-8bebe.firebaseio.com",
+    "project_id": "numberguess-8bebe",
+    "storage_bucket": "numberguess-8bebe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:596277009281:android:cd04f93851df1058",
+        "android_client_info": {
+          "package_name": "com.nuumberguess.edgoo.numberguess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "596277009281-8j3m5jdh0n2u9lchqlkntjn01upf7imf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nuumberguess.edgoo.numberguess",
+            "certificate_hash": "726b4757c0823115c90d2a9b5a969abde8cb9f19"
+          }
+        },
+        {
+          "client_id": "596277009281-t14llcb5glhihgmoqqop5ghunfbq3rn3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6mVosfqyaEAsgTLJPsyned_0-vpWYd-8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "596277009281-t14llcb5glhihgmoqqop5ghunfbq3rn3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
