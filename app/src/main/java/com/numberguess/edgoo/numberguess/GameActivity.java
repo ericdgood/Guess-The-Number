@@ -1,13 +1,10 @@
 package com.numberguess.edgoo.numberguess;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,8 +24,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.data.model.User;
 import com.numberguess.edgoo.numberguess.Fragments.CorrectGameFragment;
 import com.numberguess.edgoo.numberguess.Fragments.LosingGameFragment;
+import com.numberguess.edgoo.numberguess.HighScore.FirebaseHighScore;
 import com.numberguess.edgoo.numberguess.RoomData.AppDatabase;
 import com.numberguess.edgoo.numberguess.RoomData.NumberGuessData;
 
@@ -39,6 +38,8 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.numberguess.edgoo.numberguess.HighScore.FirebaseHighScore.mUsername;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -271,7 +272,8 @@ public class GameActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
 
-            NumberGuessData highScore = new NumberGuessData(level, levelMaxRange);
+            String User = FirebaseHighScore.mUsername;
+            NumberGuessData highScore = new NumberGuessData(level, levelMaxRange, User);
             db.numberGuessDao().insertAll(highScore);
     }
 

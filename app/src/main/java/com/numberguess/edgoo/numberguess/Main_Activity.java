@@ -89,7 +89,6 @@ public class Main_Activity extends AppCompatActivity {
             case R.id.high_score:
                 Intent highScore = new Intent(this, FirebaseHighScore.class);
                 startActivity(highScore);
-                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -17,9 +17,13 @@ public class NumberGuessData {
     @ColumnInfo(name = "higRange")
     private int hignRange;
 
-    public NumberGuessData(int hignLevel, int hignRange) {
+    @ColumnInfo(name = "user")
+    private String User;
+
+    public NumberGuessData(int hignLevel, int hignRange, String User) {
         this.hignLevel = hignLevel;
         this.hignRange = hignRange;
+        this.User = User;
     }
 
     public int getId() {
@@ -38,5 +42,8 @@ public class NumberGuessData {
         return hignRange;
     }
 
+    public String getUser() {
+        return User;
+    }
 
 }
