@@ -39,6 +39,7 @@ import butterknife.ButterKnife;
 
 public class FirebaseHighScore extends Activity {
 
+    private static final String TAG = "tester";
     @BindView(R.id.button_submit_your_score)
     Button btnSubmitYourScore;
 
@@ -53,7 +54,7 @@ public class FirebaseHighScore extends Activity {
     private DatabaseReference mHigScoresDatabaseReference;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-
+    private ChildEventListener mChildEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +77,39 @@ public class FirebaseHighScore extends Activity {
 
             int highLevelData = db.numberGuessDao().gethighLevel();
 
-            NumberGuessData highScore = new NumberGuessData(highLevelData, 0, mUsername);
+            HighScore highScore = new HighScore(highLevelData, mUsername);
             mHigScoresDatabaseReference.push().setValue(highScore);
 
         });
+
+        mChildEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                HighScore highScore = dataSnapshot.getValue(HighScore.class);
+                Log.i(TAG, "onChildAdded: " + highScore);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mHigScoresDatabaseReference.addChildEventListener(mChildEventListener);
 
         mAuthStateListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
