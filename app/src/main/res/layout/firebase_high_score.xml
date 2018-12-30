@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.numberguess.edgoo.numberguess.FirebaseHighScore"
+    tools:context="com.numberguess.edgoo.numberguess.HighScore.FirebaseHighScore"
     android:background="@drawable/background_gradient"
     android:padding="16dp">
 
@@ -20,9 +20,19 @@
         app:layout_constraintRight_toRightOf="parent"
         android:padding="8dp"/>
 
-    <!--<android.support.v7.widget.RecyclerView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintTop_toBottomOf="@id/textview_highscore_title"/>-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_highscores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textview_highscore_title"/>
+
+    <Button
+        android:id="@+id/button_submit_your_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="submit your highscore"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recyclerview_highscores"/>
 
 </android.support.constraint.ConstraintLayout>
