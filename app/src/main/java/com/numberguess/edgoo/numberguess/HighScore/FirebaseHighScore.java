@@ -2,22 +2,21 @@ package com.numberguess.edgoo.numberguess.HighScore;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -25,13 +24,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.numberguess.edgoo.numberguess.R;
 import com.numberguess.edgoo.numberguess.RoomData.AppDatabase;
-import com.numberguess.edgoo.numberguess.RoomData.NumberGuessData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,12 +40,15 @@ public class FirebaseHighScore extends Activity {
     private static final String TAG = "tester";
     @BindView(R.id.button_submit_your_score)
     Button btnSubmitYourScore;
+    @BindView(R.id.recyclerview_highscores)
+    RecyclerView recyclerView;
 
 
     public static String mUsername;
     public static final String ANONYMOUS = "anonymous";
     public static final int RC_SIGN_IN = 1;
-    private static final int RC_PHOTO_PICKER = 2;
+    private HighScoreAdapter recyclerAdapter;
+    List<HighScore> highScores = new ArrayList<>();
 
     // Firebase instance variables
     private FirebaseDatabase mFirebaseDatabase;
@@ -69,6 +70,10 @@ public class FirebaseHighScore extends Activity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mHigScoresDatabaseReference = mFirebaseDatabase.getReference().child("high_scores");
 
+        recyclerAdapter = new HighScoreAdapter(this, highScores);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(recyclerAdapter);
+
         btnSubmitYourScore.setOnClickListener(v -> {
             final AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "number_guess")
                     .fallbackToDestructiveMigration()
@@ -86,7 +91,7 @@ public class FirebaseHighScore extends Activity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 HighScore highScore = dataSnapshot.getValue(HighScore.class);
-                Log.i(TAG, "onChildAdded: " + highScore);
+                addItem(highScore);
             }
 
             @Override
@@ -147,6 +152,10 @@ public class FirebaseHighScore extends Activity {
         }
     }
 
+    private void addItem(HighScore highScore) {
+        highScores.add(highScore);
+        recyclerAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
